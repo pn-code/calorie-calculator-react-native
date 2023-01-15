@@ -4,6 +4,11 @@ import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function App() {
 	const [weight, setWeight] = useState();
+	const [calories, setCalories] = useState();
+
+	const onPressCalculate = () => {
+		setCalories(weight * 15);
+	};
 
 	return (
 		<View style={styles.container}>
@@ -14,18 +19,29 @@ export default function App() {
 			{/* Form */}
 			<View>
 				<TextInput
-					type="numbers"
+					onChangeText={setWeight}
+					keyboardType="number-pad"
+					maxLength={4}
 					placeholder="Input Weight (lb)"
+					value={weight}
 				></TextInput>
-				<Button title="Calculate"></Button>
+				<Button onPress={onPressCalculate} title="Calculate" />
 			</View>
-      {/* Text Output */}
-      <View>
-        <Text>Daily Calorie Expenditure: {`<calories>`}</Text>
-        <Text>To Lose Weight: {`<calories>`} - 300-500 calories.</Text>
-        <Text>To Gain Weight: {`<calories>`} + 200-300 calories.</Text>
-        <Text>To Maintain Weight: {`<calories>`} calories</Text>
-      </View>
+			{/* Text Output */}
+			{calories != 0 && (
+				<View>
+					<Text>Daily Calorie Expenditure: {calories} </Text>
+					<Text>
+						To Lose Weight:{" "}
+						{`${calories - 300} - ${calories - 500}`} calories.
+					</Text>
+					<Text>
+						To Gain Weight:{" "}
+						{`${calories + 300} - ${calories + 500}`} calories.
+					</Text>
+					<Text>To Maintain Weight: {calories} calories.</Text>
+				</View>
+			)}
 			<StatusBar style="auto" />
 		</View>
 	);
